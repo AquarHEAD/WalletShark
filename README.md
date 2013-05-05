@@ -135,14 +135,14 @@ activity history page.
 - key: `string` a unique token
 - status: `enum` fresh, authed, expired
 - expire_at: `datetime` cannot be used later than this
-- uid: `foreignkey` if authed then set to the authed user's id
+- user: `foreignkey` if authed then set to the authed user's id
 - created_at: `datetime`
 - used_at: `datetime`
 
 ### ResetToken
 
 - key: `string`
-- uid: `foreignkey` -> user.id
+- user: `foreignkey` -> user.id
 - type: `enum` login_password or payment_password
 - used: `boolean`
 - created_at: `datetime`
@@ -153,22 +153,24 @@ activity history page.
 
 - token: `string`
 - name: `string`
-- type(maybe): `string` 收款/付款?
+- type: `enum` inpour(充值), payment(付款), refund(收款), transfer(转账), gathering(收款)
 - recipient: `string` to whom the payment is made
-- sum: `decimal` money amount
-- uid: `foreignkey`
-- status: `enum` pending, succeed, canceled, expired
-- created_date: `datetime`
-- finished_date: `datetime`
+- pay_amount: `decimal` money amount
+- user: `foreignkey`
+- status: `enum` pending, succeed, failed, expired
+- created_at: `datetime`
+- updated_at: `datetime`
+- ended_at: `datetime`
 
 ### PrepaidCard
 
 - identifier: `string`
 - password: `string`
-- value: `float`
+- value: `decimal`
 - created_at: `datetime`
 - used_at: `datetime`
 - expire_at: `datetime`
+- user: `foreignkey`
 
 ### ServiceProvider
 

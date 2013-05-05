@@ -3,5 +3,8 @@ class ServiceProvider
 
   # property <name>, <type>
   property :id, Serial
+  property :service_id, String
+  property :service_secret, String
+  property :service_name, String
   
 end

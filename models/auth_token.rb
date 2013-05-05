@@ -5,10 +5,10 @@ class AuthToken
 
   # property <name>, <type>
   property :id, Serial
-  property :auth_key, String, :default => { |r, p| Digest::SHA1.hexdigest([Time.now, rand].join) }
+  property :token, String, :default => lambda { |r, p| Digest::SHA1.hexdigest([Time.now, rand].join) }
   property :status, Enum[ :fresh, :authed, :expired ]
-  property :expire_at, Datetime
-  property :used_at, Datetime
+  property :expire_at, DateTime
+  property :used_at, DateTime
   timestamps :created_at
 
   belongs_to :user

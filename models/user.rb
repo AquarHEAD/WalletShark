@@ -16,4 +16,6 @@ class User
   property :grow_points, Float
   property :balance, Decimal, :scale => 2, :precision => 20
   timestamps :at
+
+  has n, :payment
 end
