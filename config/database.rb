@@ -13,7 +13,7 @@ DataMapper.logger = logger
 DataMapper::Property::String.length(255)
 
 case Padrino.env
-  when :development then DataMapper.setup(:default, "mysql://root@localhost/wallet_shark_development")
-  when :production  then DataMapper.setup(:default, "mysql://root@localhost/wallet_shark_production")
-  when :test        then DataMapper.setup(:default, "mysql://root@localhost/wallet_shark_test")
+  when :development then DataMapper.setup(:default, "mysql://walletshark:walletshark@localhost/wallet_shark_development")
+  when :production  then DataMapper.setup(:default, "mysql://walletshark:walletshark@localhost/wallet_shark_production")
+  when :test        then DataMapper.setup(:default, "mysql://walletshark:walletshark@localhost/wallet_shark_test")
 end

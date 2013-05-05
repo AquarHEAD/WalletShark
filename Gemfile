@@ -20,6 +20,8 @@ gem 'dm-aggregates'
 gem 'dm-types'
 gem 'dm-core'
 
+# WalletShark specified
+
 # Test requirements
 gem 'rspec', :group => 'test'
 gem 'capybara', :group => 'test'

@@ -117,43 +117,47 @@ activity history page.
 - id: `int`
 - username: `string` cannot contain '@'
 - email: `string`
-- password: `string` encrypted with bcrypt
+- login_pass: `string` encrypted with bcrypt
 - realname: `string`
 - id_number: `string`
-- payment_password: `string` encrypted with bcrypt
+- payment_pass: `string` encrypted with bcrypt
 - bind_phone: `string` (optional)
 - sec_question: `string` (optional)
 - sec_answer: `string` (optional)
 - actived: `boolean`
-- join_date: `datetime`
-- grow_points: `int` or `float` (may need this extra info when pay for thing)
-- balance: `float`
+- created_at: `datetime`
+- updated_at: `datetime`
+- grow_points: `float` (may need this extra info when pay for thing)
+- balance: `decimal`
 
 ### AuthToken
 
 - key: `string` a unique token
-- status: `string` fresh, authed, expired
-- expire_date: `datetime` cannot be used later than this
+- status: `enum` fresh, authed, expired
+- expire_at: `datetime` cannot be used later than this
 - uid: `foreignkey` if authed then set to the authed user's id
-- login_ip: `string` (optional)
-- login_date: `datetime`
+- created_at: `datetime`
+- used_at: `datetime`
 
 ### ResetToken
 
 - key: `string`
 - uid: `foreignkey` -> user.id
+- type: `enum` login_password or payment_password
 - used: `boolean`
-- used_date: `datetime`
-- expire_date: `datetime`
+- created_at: `datetime`
+- used_at: `datetime`
+- expire_at: `datetime`
 
 ### Payment
 
-- payment_token: `string`
-- payment_name: `string`
-- payment_type(maybe): `string` 收款/付款?
+- token: `string`
+- name: `string`
+- type(maybe): `string` 收款/付款?
 - recipient: `string` to whom the payment is made
-- money_amount: `float`
-- status: `string` pending, succeed, canceled, expired
+- sum: `decimal` money amount
+- uid: `foreignkey`
+- status: `enum` pending, succeed, canceled, expired
 - created_date: `datetime`
 - finished_date: `datetime`
 
@@ -162,9 +166,9 @@ activity history page.
 - identifier: `string`
 - password: `string`
 - value: `float`
-- created_date: `datetime`
-- used_date: `datetime`
-- expire_date: `datetime`
+- created_at: `datetime`
+- used_at: `datetime`
+- expire_at: `datetime`
 
 ### ServiceProvider
 
