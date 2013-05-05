@@ -114,7 +114,6 @@ activity history page.
 
 ### User
 
-- id: `int`
 - username: `string` cannot contain '@'
 - email: `string`
 - login_pass: `string` encrypted with bcrypt
