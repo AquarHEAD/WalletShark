@@ -4,6 +4,8 @@ WalletShark::App.controllers :user do
 
   get :index do
     @title = "Home"
+    token = AuthToken.first(:token => session[:auth_token])
+    @user = token.user
     render 'user/home'
   end
 
@@ -23,6 +25,10 @@ WalletShark::App.controllers :user do
       @error = "注册密码不匹配"
       render 'user/signup'
     end
+    if params[:username].include? "@"
+      @error = "非法用户名"
+      render 'user/signup'
+    end
     @user.username = params[:username]
     @user.nickname = params[:nickname]
     @user.email = params[:email]
@@ -38,6 +44,37 @@ WalletShark::App.controllers :user do
     else
       render 'user/signup'
     end
+  end
+
+  get :login do
+    @title = "Login"
+    render 'user/login'
+  end
+
+  post :login do
+    require 'bcrypt'
+
+    if params[:login_id].include? "@"
+      user = User.first(:email => params[:login_id])
+    else
+      user = User.first(:username => params[:login_id])
+    end
+    if user.login_pass == params[:login_pass]
+      token = AuthToken.new
+      service = ServiceProvider.get(1)
+      token.service_provider = service
+      token.user = user
+      token.status = :authed
+      token.used_at = Time.now
+      token.expire_at = Time.now + 30*60
+      token.save
+      session[:auth_token] = token.token
+      redirect 'user/'
+    else
+      @error = "用户名或密码错误"
+      render 'user/login'
+    end
+    
   end
 
   get :deposit do

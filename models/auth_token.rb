@@ -14,4 +14,5 @@ class AuthToken
   timestamps :created_at
 
   belongs_to :user
+  belongs_to :service_provider
 end

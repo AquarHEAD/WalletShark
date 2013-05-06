@@ -8,6 +8,8 @@ module WalletShark
 
     enable :sessions
 
+    set :session_secret, "WalletShark"
+
     ##
     # Caching support
     #
