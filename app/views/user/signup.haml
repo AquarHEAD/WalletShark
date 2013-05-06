@@ -1,0 +1,67 @@
+-# encoding: utf-8
+
+.row
+  .span6.offset3
+    %h3 注册新用户
+.row
+  .span6.offset3
+    - if @error
+      .alert
+        %button.close{:type => "button", "data-dismiss".to_s => "alert"}
+          &times;
+        = @error
+    - form_tag '/user/signup/', :class => 'form-horizontal', :method => "post" do
+      %legend 登录信息
+      .control-group
+        %label.control-label{:for => "inputName"} 用户名
+        .controls
+          %input#inputName{:placeholder => "Username", :type => "text", :name => "username"}/
+      .control-group
+        %label.control-label{:for => "inputNick"} 昵称
+        .controls
+          %input#inputNick{:placeholder => "Nickname", :type => "text", :name => "nickname"}/
+      .control-group
+        %label.control-label{:for => "inputPassword"} 登录密码
+        .controls
+          %input#inputPassword{:placeholder => "Login Password", :type => "password", :name => "login_pass"}/
+      .control-group
+        %label.control-label{:for => "inputPasswordRepeat"} 重复登录密码
+        .controls
+          %input#inputPasswordRepeat{:placeholder => "Repeat Login Password", :type => "password", :name => "login_pass_repeat"}/
+      .control-group
+        %label.control-label{:for => "inputEmail"} 电子邮箱
+        .controls
+          %input#inputEmail{:placeholder => "Email", :type => "text", :name => "email"}/
+      %legend 实名认证
+      .control-group
+        %label.control-label{:for => "inputRealname"} 真实姓名
+        .controls
+          %input#inputRealname{:placeholder => "Realname", :type => "text", :name => "realname"}/
+      .control-group
+        %label.control-label{:for => "inputIDNum"} 身份证号码
+        .controls
+          %input#inputIDNum{:placeholder => "ID Card Number", :type => "text", :name => "id_number"}/
+      %legend 支付密码
+      .control-group
+        %label.control-label{:for => "inputPayPass"} 支付密码
+        .controls
+          %input#inputPayPass{:placeholder => "Payment Password", :type => "password", :name => "payment_pass"}/
+      .control-group
+        %label.control-label{:for => "inputPayPassRepeat"} 重复支付密码
+        .controls
+          %input#inputPayPassRepeat{:placeholder => "Repeat Payment Password", :type => "password", :name => "payment_pass_repeat"}/
+      %legend 账户安全
+      .control-group
+        %label.control-label{:for => "inputBindPhone"} 绑定手机
+        .controls
+          %input#inputBindPhone{:placeholder => "BindPhone", :type => "text", :name => "bind_phone"}/
+      .control-group
+        %label.control-label{:for => "inputSecQuestion"} 安全问题
+        .controls
+          %input#inputSecQuestion{:placeholder => "Security Question", :type => "text", :name => "sec_question"}/
+      .control-group
+        %label.control-label{:for => "inputSecAnswer"} 安全问题答案
+        .controls
+          %input#inputSecAnswer{:placeholder => "Security Question Answer", :type => "text", :name => "sec_answer"}/
+      .form-actions
+        %button.btn.btn-primary{:type => "submit"} 注册
