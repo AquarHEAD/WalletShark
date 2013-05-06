@@ -1,0 +1,68 @@
+-# encoding: utf-8
+
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}/
+    %title
+      = @title
+      | 易付通
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %link{:href => "/stylesheets/bootstrap.css", :rel => "stylesheet"}/
+    :css
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 6px 8px;
+        font: 12px sans-serif;
+        background: #ffb515;
+        border-radius: 6px;
+        color: white;
+      }
+      %link{:href => "/stylesheets/bootstrap-responsive.css", :rel => "stylesheet"}/
+    %script{:src => "/javascripts/jquery.js"}
+    %script{:src => "/javascripts/bootstrap.min.js"}
+    %link{:href => "/stylesheets/home.css", :rel => "stylesheet"}/
+    %script{:src => "/javascripts/d3.v3.min.js"}
+    %link{:href => "/stylesheets/chardinjs.css", :rel => "stylesheet"}/
+    %script{:src => "/javascripts/chardinjs.min.js"}
+  %body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{:href => "#"} 易付通
+          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          .nav-collapse.collapse
+            %ul.nav
+              %li.active
+                %a{:href => "#"} 我的易付通
+              %li
+                %a{:href => "#about"} 预订
+              %li
+                %a{:href => "#contact"}
+                  通知
+                  %span.badge.badge-inverse 5
+            %ul.nav.pull-right
+              %li
+                %a.help-trigger{:href => "#"} 帮助
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  AquarHEAD L.
+                  %b.caret
+                %ul.dropdown-menu
+                  %li.nav-header 帐号管理
+                  %li
+                    %a{:href => "#"} 编辑个人资料
+                  %li
+                    %a{:href => "#"} 修改支付密码
+                  %li.divider
+                  %li
+                    %a{:href => "#"} 注销
+    = yield

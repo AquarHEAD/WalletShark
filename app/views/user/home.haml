@@ -1,0 +1,185 @@
+-# encoding: utf-8
+
+:javascript
+  $(".help-trigger").click(function() {
+    $('body').chardinJs('start');
+  });
+.container
+  .row
+    .span4.offset2
+      .media.well{"data-intro" => "用户信息", "data-position" => "left"}
+        %a.pull-left{:href => "#"}
+          %img.media-object{:src => "https://secure.gravatar.com/avatar/55726c206ec597ea0e33fa04ce6b3110?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png", :width => "64"}/
+        .media-body
+          %h4
+            AquarHEAD L.
+            %span.label.label-important VIP
+          %p aquarhead@gmail.com
+    .span4{"data-intro" => "资金管理", "data-position" => "right"}
+      %h4 可用余额
+      %h2
+        0.00
+        %small 元
+      %a.btn.btn-primary{:href => "#"} 充值
+      %a.btn{:href => "#"} 转账
+  %hr/
+  .row
+    .span8.offset2{"data-intro" => "近期消费趋势", "data-position" => "right"}
+      .tabbable.tabs-left
+        %ul#trendmaps.nav.nav-tabs
+          %li.active
+            %a{:href => "#home"} 支出
+          %li
+            %a{:href => "#profile"} 收入
+          %li
+            %a{:href => "#messages"} 综合开销
+          %li
+            %a{:href => "#settings"} 综合盈利
+        .tab-content
+          #home.tab-pane.active
+            #tm-spent
+          #profile.tab-pane
+            #tm-income
+          #messages.tab-pane
+            #tm-overhead
+          #settings.tab-pane
+            #tm-profit
+        :javascript
+          $('#trendmaps a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+          })
+        :javascript
+          var months = [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3];
+          var data_spent = [2660.43, 630.76, 998.77, 2728.24, 316.95, 523.00, 286.97, 1547.14, 1131.29, 2676.57, 559.24, 698.57];
+          var ds_max = 2728.24;
+          var data_income = data_spent;
+          var data_overhead = data_spent;
+          var data_profit = data_spent;
+          var di_max = ds_max;
+          var do_max = ds_max;
+          var dp_max = ds_max;
+          
+          function calcx(pos) {
+            return (430/11)*pos+15;
+          }
+          function calcy(data, max) {
+            return 70-(data/max)*50;
+          }
+          
+          function maketm(tmid, tmdata, tmdmax) {
+            var svg = d3.select(tmid)
+                        .append("svg")
+                        .attr("width", 460)
+                        .attr("height", 100)
+                        .attr("style", "overflow: hidden; position: relative;");
+            
+            var pathset = [];
+            for (var dp=0; dp<tmdata.length-1; dp++) {
+              pathset.push("M"+(calcx(dp))+","+(calcy(tmdata[dp], tmdmax))+"L"+(calcx(dp+1))+","+(calcy(tmdata[dp+1], tmdmax)));
+            }
+            svg.selectAll("path")
+               .data(pathset)
+               .enter()
+               .append("path")
+               .attr("style", "-webkit-tap-highlight-color: rgba(0, 0, 0, 0);")
+               .attr("fill", "none")
+               .attr("stroke", "#d8e5eb")
+               .attr("d", function(d) {
+                 return d;
+               })
+               .attr("stroke-width", "4px");
+            
+              var tooltip = d3.select("body").append("div")   
+                .attr("class", "tooltip")               
+                .style("opacity", 0);
+
+            var circles = svg.selectAll("circle")
+                             .data(tmdata)
+                             .enter()
+                             .append("circle")
+                             .attr("r", 5)
+                             .attr("fill", "#ffffff")
+                             .attr("stroke", "#cee2e9")
+                             .attr("stroke-width", "2.5px")
+                             .attr("cx", function(d, i) {
+                               return calcx(i);
+                             })
+                             .attr("cy", function(d) {
+                               return calcy(d, tmdmax);
+                             })
+                             .on("mouseover", function(d, i) {
+                               if (d3.select(this).style("stroke") != "#ffb515") {
+                                 circles.style("stroke", "#cee2e9");
+                                 d3.select(this).style("stroke", "#ffb515");
+                                 tooltip.style("opacity", 0)
+                                        .style("left", d3.event.pageX + "px")
+                                        .style("top", d3.event.pageY - 30 + "px")
+                                        .html(d);
+                                 tooltip.transition()
+                                        .duration(200)
+                                        .style("opacity", .9);
+                               };
+                             })
+                             .on("mouseout", function() {
+                                circles.style("stroke", "#cee2e9");
+                                tooltip.transition()
+                                       .duration(200)
+                                       .style("opacity", 0);
+                             });
+            svg.selectAll("text")
+               .data(months)
+               .enter()
+               .append("text")
+               .attr("x", function(d,i) {
+                 return calcx(i);
+               })
+               .attr("y", 87)
+               .attr("text-anchor", "middle")
+               .attr("font-size", "12px")
+               .attr("font-family", "Arial")
+               .attr("stroke", "none")
+               .attr("fill", "#cee2e9")
+               .append("tspan")
+               .attr("style", "-webkit-tap-highlight-color: rgba(0, 0, 0, 0);")
+               .attr("dy", "4.1640625")
+               .text( function(d) {
+                 return d+"月"
+               });
+
+          }
+          
+          maketm("#tm-spent", data_spent, ds_max);
+          maketm("#tm-income", data_income, di_max);
+          maketm("#tm-overhead", data_overhead, do_max);
+          maketm("#tm-profit", data_profit, dp_max);
+    .row
+    .span10.offset1
+      %table.table.table-striped
+        %caption 交易列表
+        %thead
+          %tr
+            %th 创建时间
+            %th 名称 | 交易号
+            %th 对方
+            %th 金额 | 明细
+            %th 状态
+            %th 操作
+        %tbody
+          %tr
+            %td
+              2013.04.01
+              %br/
+              %small 17:25
+            %td
+              字节社版《失控》
+              %br/
+              %small 交易号 2013...116
+            %td 北京东西时代数字科技有限公司
+            %td -12.00
+            %td 交易成功
+            %td
+              %i.icon-remove
+  %hr/
+  %footer
+    %p{:style => "text-align:right;"} © AquarHEAD L.

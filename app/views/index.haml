@@ -1,0 +1,67 @@
+-# encoding: utf-8
+
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}/
+    %title Welcome | 易付通
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %link{:href => "/stylesheets/bootstrap.css", :rel => "stylesheet"}/
+    :css
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+          %link{:href => "/stylesheets/bootstrap-responsive.css", :rel => "stylesheet"}/
+  %body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{:href => "#"} 易付通
+          .nav-collapse.collapse
+            %ul.nav
+              %li.active
+                %a{:href => "#"} 我的易付通
+              %li
+                %a{:href => "#about"} 预订
+              %li
+                %a{:href => "#contact"}
+                  通知
+                  %span.badge.badge-inverse 5
+            %ul.nav.pull-right
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  访客, 你好!
+                  %b.caret
+                %ul.dropdown-menu
+                  %li
+                    %a{:href => "#"} 登录
+                  %li.divider
+                  %li
+                    %a{:href => "#"} 注册
+    .container
+      .row
+        .span8
+          .hero-unit
+            %img{:src => "/images/000.jpg"}/
+        .span4
+          %form
+            %fieldset
+              %legend 登录
+              %input{:placeholder => "用户名", :type => "text"}/
+              %span.help-block
+                %a{:href => "#"} 忘记密码了?
+              %input{:placeholder => "密码", :type => "password"}/
+              %label.checkbox
+                %input{:type => "checkbox"}>/
+                保持登录状态
+              %button.btn{:type => "submit"} 登录
+            %br/
+            %fieldset
+              %legend 还没有帐号?
+              %a.btn.btn-primary{:href => "#"} 点此注册
+      %hr/
+      %footer
+        %p{:style => "text-align:right;"} © AquarHEAD L.
+    %script{:src => "/javascripts/jquery.js"}
+    %script{:src => "/javascripts/bootstrap.min.js"}

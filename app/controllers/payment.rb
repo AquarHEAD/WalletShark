@@ -1,12 +1,4 @@
-# encoding: utf-8
-
-WalletShark::App.controllers :user do
-
-  get :index do
-    @title = "Home"
-    render 'user/home', :layout => :default
-  end
-
+WalletShark::App.controllers :payment do
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
   #   render 'index'

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module WalletShark
   class App < Padrino::Application
     register Padrino::Rendering
@@ -45,6 +47,10 @@ module WalletShark
     #     disable :asset_stamp # no asset timestamping for dev
     #   end
     #
+
+    get :welcome, :map => '/' do
+      render 'index'
+    end
 
     ##
     # You can manage errors like:
