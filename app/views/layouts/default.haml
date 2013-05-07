@@ -50,21 +50,22 @@
                   通知
                   %span.badge.badge-inverse 5
             %ul.nav.pull-right
-              %li
-                %a.help-trigger{:href => "#"} 帮助
-              %li.dropdown
-                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                  AquarHEAD L.
-                  %b.caret
-                %ul.dropdown-menu
-                  %li.nav-header 帐号管理
-                  %li
-                    %a{:href => "#"} 编辑个人资料
-                  %li
-                    %a{:href => "#"} 修改支付密码
-                  %li.divider
-                  %li
-                    %a{:href => "#"} 注销
+              - if @user
+                %li
+                  %a.help-trigger{:href => "#"} 帮助
+                %li.dropdown
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                    = @user.nickname
+                    %b.caret
+                  %ul.dropdown-menu
+                    %li.nav-header 帐号管理
+                    %li
+                      %a{:href => "#"} 编辑个人资料
+                    %li
+                      %a{:href => "#"} 修改支付密码
+                    %li.divider
+                    %li
+                      %a{:href => "#"} 注销
     .container
       = yield
       %hr/

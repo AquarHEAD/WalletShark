@@ -13,11 +13,12 @@
         %h4
           = @user.nickname
           %span.label.label-important VIP
-        %p aquarhead@gmail.com
+        %p
+          = @user.email
   .span4{"data-intro" => "资金管理", "data-position" => "right"}
     %h4 可用余额
     %h2
-      0.00
+      = @user.balance
       %small 元
     %a.btn.btn-primary{:href => "#"} 充值
     %a.btn{:href => "#"} 转账

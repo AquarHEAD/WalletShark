@@ -152,7 +152,7 @@ activity history page.
 
 - token: `string`
 - name: `string`
-- type: `enum` inpour(充值), payment(付款), refund(收款), transfer(转账), gathering(收款)
+- type: `enum` inpour(充值), payment(付款), refund(退款), transfer(转账), gathering(收款)
 - recipient: `string` to whom the payment is made
 - pay_amount: `decimal` money amount
 - user: `foreignkey`
