@@ -1,5 +1,7 @@
 # WalletShark
 
+[![Code Climate](https://codeclimate.com/github/AquarHEAD/WalletShark.png)](https://codeclimate.com/github/AquarHEAD/WalletShark)
+
 A Personal Account Management module for our SE course at ZJU 2013 Spring-Summer.
 
 ## Interface
