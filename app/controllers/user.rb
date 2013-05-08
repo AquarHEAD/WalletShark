@@ -19,15 +19,12 @@ WalletShark::App.controllers :user do
     @user = User.new
     if params[:login_pass] != params[:login_pass_repeat]
       @error = "登录密码不匹配"
-      render 'user/signup'
     end
     if params[:payment_pass] != params[:payment_pass_repeat]
       @error = "注册密码不匹配"
-      render 'user/signup'
     end
     if params[:username].include? "@"
       @error = "非法用户名"
-      render 'user/signup'
     end
     @user.username = params[:username]
     @user.nickname = params[:nickname]
@@ -39,7 +36,7 @@ WalletShark::App.controllers :user do
     @user.bind_phone = params[:bind_phone]
     @user.sec_question = params[:sec_question]
     @user.sec_answer = params[:sec_answer]
-    if @user.save
+    if @error || @user.save
       redirect '/user/'
     else
       render 'user/signup'
@@ -58,6 +55,10 @@ WalletShark::App.controllers :user do
       user = User.first(:email => params[:login_id])
     else
       user = User.first(:username => params[:login_id])
+    end
+    if !user
+      @error = "无效用户"
+      render 'user/login'
     end
     if user.login_pass == params[:login_pass]
       token = AuthToken.new
