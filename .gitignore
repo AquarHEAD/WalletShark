@@ -2,7 +2,7 @@
 Thumbs.db
 Desktop.ini
 
-log/**/*
+log/
 tmp/
 bin/*
 vendor/gems/*
