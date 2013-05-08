@@ -66,6 +66,17 @@
                     %li.divider
                     %li
                       %a{:href => "#"} 注销
+              - else
+                %li.dropdown
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                    访客, 你好!
+                    %b.caret
+                  %ul.dropdown-menu
+                    %li
+                      %a{:href => "#"} 登录
+                    %li.divider
+                    %li
+                      %a{:href => "#"} 注册
     .container
       = yield
       %hr/
