@@ -49,7 +49,6 @@ WalletShark::App.controllers :user do
   end
 
   post :login do
-    require 'bcrypt'
 
     if params[:login_id].include? "@"
       user = User.first(:email => params[:login_id])
