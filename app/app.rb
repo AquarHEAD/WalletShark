@@ -51,6 +51,7 @@ module WalletShark
     #
 
     get :welcome, :map => '/' do
+      @title = "Welcome"
       render 'index'
     end
 
