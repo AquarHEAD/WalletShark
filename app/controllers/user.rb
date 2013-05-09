@@ -5,6 +5,9 @@ WalletShark::App.controllers :user do
   get :index do
     @title = "Home"
     token = AuthToken.first(:token => session[:auth_token])
+    unless token
+      redirect "/user/login"
+    end
     @user = token.user
     render 'user/home'
   end
@@ -49,7 +52,6 @@ WalletShark::App.controllers :user do
   end
 
   post :login do
-
     if params[:login_id].include? "@"
       user = User.first(:email => params[:login_id])
     else
@@ -74,7 +76,13 @@ WalletShark::App.controllers :user do
       @error = "用户名或密码错误"
       render 'user/login'
     end
-    
+  end
+
+  get :logout do
+    token = AuthToken.first(:token => session[:auth_token])
+    token.status = :dropped
+    session.clear
+    redirect back
   end
 
   get :deposit do

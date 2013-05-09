@@ -60,12 +60,12 @@
                   %ul.dropdown-menu
                     %li.nav-header 帐号管理
                     %li
-                      %a{:href => "#"} 编辑个人资料
+                      %a{:href => "/user/edit"} 编辑个人资料
                     %li
                       %a{:href => "#"} 修改支付密码
                     %li.divider
                     %li
-                      %a{:href => "#"} 注销
+                      %a{:href => "/user/logout/"} 注销
               - else
                 %li.dropdown
                   %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -73,10 +73,10 @@
                     %b.caret
                   %ul.dropdown-menu
                     %li
-                      %a{:href => "#"} 登录
+                      %a{:href => "/user/login/"} 登录
                     %li.divider
                     %li
-                      %a{:href => "#"} 注册
+                      %a{:href => "/user/signup/"} 注册
     .container
       = yield
       %hr/
