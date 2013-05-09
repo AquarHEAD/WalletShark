@@ -34,7 +34,7 @@
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container
-          %a.brand{:href => "#"} 易付通
+          %a.brand{:href => "/"} 易付通
           %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
             %span.icon-bar
             %span.icon-bar
@@ -42,11 +42,11 @@
           .nav-collapse.collapse
             %ul.nav
               %li.active
-                %a{:href => "#"} 我的易付通
+                %a{:href => "/user/"} 我的易付通
               %li
-                %a{:href => "#about"} 预订
+                %a{:href => "#"} 预订
               %li
-                %a{:href => "#contact"}
+                %a{:href => "#"}
                   通知
                   %span.badge.badge-inverse 5
             %ul.nav.pull-right
@@ -81,4 +81,4 @@
       = yield
       %hr/
       %footer
-        %p{:style => "text-align:right;"} © AquarHEAD L.
+        %p{:style => "text-align:right;"} _by_ AquarHEAD L.
