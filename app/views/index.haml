@@ -4,13 +4,13 @@
     .hero-unit
       %img{:src => "/images/000.jpg"}/
   .span4
-    %form
+    - form_tag '/user/login/', :method => "post" do
       %fieldset
         %legend 登录
-        %input{:placeholder => "用户名", :type => "text"}/
+        %input{:placeholder => "用户名", :type => "text", :name => "login_id"}/
         %span.help-block
           %a{:href => "#"} 忘记密码了?
-        %input{:placeholder => "密码", :type => "password"}/
+        %input{:placeholder => "密码", :type => "password", :name => "login_pass"}/
         %label.checkbox
           %input{:type => "checkbox"}>/
           保持登录状态
