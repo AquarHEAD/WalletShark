@@ -10,6 +10,15 @@ module WalletShark
 
     set :session_secret, "WalletShark"
 
+    set :delivery_method, :smtp => {
+      :address=> "smtp.163.com",
+      :port => 25,
+      :user_name => "walletshark@163.com",
+      :password => "wshark",
+      :authentication => :plain,
+      :enable_starttls_auto => true
+    }
+
     ##
     # Caching support
     #

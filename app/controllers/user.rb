@@ -39,10 +39,11 @@ WalletShark::App.controllers :user do
     @user.bind_phone = params[:bind_phone]
     @user.sec_question = params[:sec_question]
     @user.sec_answer = params[:sec_answer]
-    if @error || @user.save
-      redirect '/user/'
-    else
+    if @error || !@user.save
       render 'user/signup'
+    else
+      email(:from => "walletshark@163.com", :to => @user.email, :subject => "Welcome to WalletShark!", :body=>"test")
+      redirect '/user/'
     end
   end
 
