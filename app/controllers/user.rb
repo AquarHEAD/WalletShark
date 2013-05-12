@@ -9,6 +9,7 @@ WalletShark::App.controllers :user do
       redirect "/user/login"
     end
     @user = token.user
+    require 'digest'
     render 'user/home'
   end
 
