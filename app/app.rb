@@ -61,6 +61,11 @@ module WalletShark
 
     get :welcome, :map => '/' do
       @title = "Welcome"
+      token = AuthToken.first(:token => session[:auth_token])
+      if token
+        @user = token.user
+        redirect '/user/'
+      end
       render 'index'
     end
 

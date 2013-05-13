@@ -1,0 +1,17 @@
+-# encoding: utf-8
+.row
+  .span6.offset3
+    %h3 支付认证
+.row
+  .span6.offset3
+    %form.form-horizontal{:action => "", :method => "post"}
+      %legend
+      .control-group
+        %label.control-label{:for => "inputPayPass"} 请输入支付密码
+        .controls
+          %input#inputPayPass{:placeholder => "Payment Password", :type => "password"}/
+      %legend
+      .control-group
+        .controls
+          %button.btn.btn-primary{:type => "submit"} 确认支付
+

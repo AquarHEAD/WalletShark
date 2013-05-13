@@ -6,7 +6,7 @@ WalletShark::App.controllers :user do
     @title = "Home"
     token = AuthToken.first(:token => session[:auth_token])
     unless token
-      redirect "/user/login"
+      redirect '/user/login/'
     end
     @user = token.user
     require 'digest'
@@ -73,7 +73,7 @@ WalletShark::App.controllers :user do
       token.expire_at = Time.now + 30*60
       token.save
       session[:auth_token] = token.token
-      redirect 'user/'
+      redirect '/user/'
     else
       @error = "用户名或密码错误"
       render 'user/login'
@@ -90,6 +90,20 @@ WalletShark::App.controllers :user do
   get :deposit do
     @title = "Deposit"
     render 'user/deposit'
+  end
+
+  get :resetloginpass do
+    @title = "Reset Login Password"
+    render 'user/resetloginpass'
+  end
+
+  get :resetpaypass do
+    # should generate new resettoken here
+  end
+
+  get :forget do
+    @title = "Forget Password"
+    render 'user/forget'
   end
   
 end

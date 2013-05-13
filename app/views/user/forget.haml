@@ -1,0 +1,44 @@
+-# encoding: utf-8
+.row
+  .span6.offset3
+    %h3 密码找回
+.row
+  .span6.offset3
+    .tabbable
+      %ul#forgetpass.nav.nav-tabs
+        %li.active
+          %a{:href => "#viaemail"} 通过电子邮件
+        %li
+          %a{:href => "#viaquestion"} 通过安全问题
+      .tab-content
+        #viaemail.tab-pane.active
+          %form.form-inline{:action => "", :method => "post"}
+            %fieldset
+              %legend 填写注册时使用的邮箱, 接收修改密码的邮件
+              %input{:name => "email", :placeholder => "Email", :type => "text"}/
+              %button.btn.btn-primary{:type => "submit"} 发送邮件
+        #viaquestion.tab-pane
+          %form.form-inline
+            %fieldset
+              %legend 先输入用户名, 然后回答安全问题修改密码
+              %input{:name => "username", :placeholder => "Username", :type => "text"}/
+              %button.btn.btn-primary{"data-target" => "#myModal", "data-toggle" => "modal"} 提交
+      #myModal.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+        .modal-header
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+          %h3#myModalLabel 回答安全问题
+        %form
+          .modal-body
+            %label 安全问题...?
+            %input{:name => "secAnswer", :placeholder => "Answer", :type => "text"}/
+          .modal-footer
+            %button.btn{"aria-hidden" => "true", "data-dismiss" => "modal"} 取消
+            %button.btn.btn-primary{:type => "submit"} 提交
+      :javascript
+        // $('#myModal').modal({"show": true})
+        // 注意设置激活的tab
+      :javascript
+        $('#forgetpass a').click(function (e) {
+          e.preventDefault();
+          $(this).tab('show');
+        })
