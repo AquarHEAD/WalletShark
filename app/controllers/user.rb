@@ -89,11 +89,21 @@ WalletShark::App.controllers :user do
 
   get :deposit do
     @title = "Deposit"
+    token = AuthToken.first(:token => session[:auth_token])
+    unless token
+      redirect '/user/login/'
+    end
+    @user = token.user
     render 'user/deposit'
   end
 
   get :resetloginpass do
     @title = "Reset Login Password"
+    token = AuthToken.first(:token => session[:auth_token])
+    unless token
+      redirect '/user/login/'
+    end
+    @user = token.user
     render 'user/resetloginpass'
   end
 
