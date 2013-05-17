@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 source "http://rubygems.org"
 
 # Server requirements
@@ -11,6 +13,7 @@ gem 'rake'
 
 # Component requirements
 gem 'haml'
+gem 'dm-serializer'
 gem 'dm-mysql-adapter'
 gem 'dm-validations'
 gem 'dm-timestamps'
