@@ -69,6 +69,10 @@ module WalletShark
       render 'index'
     end
 
+    error 401 do
+      return "Unauthorized"
+    end
+
     ##
     # You can manage errors like:
     #

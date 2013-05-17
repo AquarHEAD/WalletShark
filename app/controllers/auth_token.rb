@@ -4,6 +4,9 @@ WalletShark::App.controllers :auth_token do
 
   get :new, :map => '/token/new/?' do
     service_id = params[:service_id]
+    if !service_id
+      halt 401
+    end
     service = ServiceProvider.first(:service_id => service_id)
     if service.service_secret != params[:service_secret]
       halt 401
@@ -18,6 +21,16 @@ WalletShark::App.controllers :auth_token do
   end
 
   get :info, :map => '/token/info/:token/?' do
+    service_id = params[:service_id]
+    if !service_id
+      halt 401
+    end
+    service = ServiceProvider.first(:service_id => service_id)
+    if service.service_secret != params[:service_secret]
+      halt 401
+    end
+    token = AuthToken.first(:token => params[:token])
+    return token.to_json(:exclude => [:id, :user_id, :service_provider_id])
   end
 
 end
