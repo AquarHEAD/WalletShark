@@ -11,6 +11,8 @@
           &times;
         = @error
     - form_tag '/user/login/', :class => 'form-horizontal', :method => "post" do
+      %input{:type => "hidden", :name => "token", :value => @token_key}
+      %input{:type => "hidden", :name => "redirect", :value => @redirect_url}
       .control-group
         %label.control-label{:for => "inputName"} 用户名或邮箱
         .controls

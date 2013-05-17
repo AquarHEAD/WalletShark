@@ -50,6 +50,8 @@ WalletShark::App.controllers :user do
 
   get :login do
     @title = "Login"
+    @token_key = params[:token]
+    @redirect_url = params[:redirect]
     render 'user/login'
   end
 
