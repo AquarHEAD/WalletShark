@@ -73,6 +73,10 @@ module WalletShark
       return "Unauthorized"
     end
 
+    get :icon, :map => '/favicon.ico' do
+      redirect '/favicon.png?v=2'
+    end
+
     ##
     # You can manage errors like:
     #
