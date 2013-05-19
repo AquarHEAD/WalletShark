@@ -43,7 +43,7 @@ WalletShark::App.controllers :user do
     if @error || !@user.save
       render 'user/signup'
     else
-      email(:from => "walletshark@163.com", :to => @user.email, :subject => "Welcome to WalletShark!", :body=>"test")
+      email(:from => "walletshark@163.com", :to => @user.email, :subject => "Welcome to WalletShark!", :body=>"Thanks for registering WalletShark!")
       redirect '/user/'
     end
   end
@@ -69,7 +69,7 @@ WalletShark::App.controllers :user do
       if params[:token].length > 0
         token = AuthToken.first(:token => params[:token])
         if token.status != :fresh
-          halt 403
+          halt 403, "Token used or expired."
         end
       else
         token = AuthToken.new

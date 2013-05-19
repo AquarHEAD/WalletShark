@@ -69,6 +69,46 @@ module WalletShark
       render 'index'
     end
 
+    get :genppcard, :map => '/genppcard/?' do
+      service_id = params[:service_id]
+      if !service_id
+        halt 401
+      end
+      service = ServiceProvider.first(:service_id => service_id)
+      if service.service_secret != params[:service_secret]
+        halt 401
+      end
+      count = 10
+      value = 100.00
+      if params[:count]
+        count = params[:count].to_i
+      end
+      if params[:value]
+        value = params[:value].to_f
+      end
+      expire_time = 60*60*24*365
+      if params[:expire_time]
+        value = params[:expire_time].to_i
+      end
+      pass = "123"
+      if params[:pass]
+        value = params[:pass]
+      end
+      require 'digest'
+      cards = Array.new()
+      count.times do
+        ppc = PrepaidCard.new
+        ppc.identifier = Digest::SHA1.hexdigest([Time.now, rand].join)[0,10]
+        ppc.password = pass
+        ppc.value = value
+        ppc.expire_at = Time.now + expire_time
+        if ppc.save
+          cards.push(ppc)
+        end
+      end
+      return "[#{cards.map{|x| x.to_json(:exclude => [:id, :password, :user_id])}.join(',')}]"
+    end
+
     error 401 do
       return "Unauthorized"
     end
