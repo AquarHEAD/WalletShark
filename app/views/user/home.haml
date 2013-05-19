@@ -18,7 +18,7 @@
   .span4{"data-intro" => "资金管理", "data-position" => "right"}
     %h4 可用余额
     %h2
-      = @user.balance
+      = @user.balance.to_s('F')
       %small 元
     %a.btn.btn-primary{:href => "/user/deposit/"} 充值
     %a.btn.disabled{:href => "#"} 转账
