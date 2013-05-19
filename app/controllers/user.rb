@@ -68,6 +68,9 @@ WalletShark::App.controllers :user do
     if user.login_pass == params[:login_pass]
       if params[:token].length > 0
         token = AuthToken.first(:token => params[:token])
+        if token.status != :fresh
+          halt 403
+        end
       else
         token = AuthToken.new
         service = ServiceProvider.get(1)
@@ -81,14 +84,14 @@ WalletShark::App.controllers :user do
       session[:auth_token] = token.token
       if params[:redirect].length > 0
         if params[:redirect].include? "?"
-          token_str = "&token=#{token.token}"
+          return_vals = "&token=#{token.token}&result=success"
         else
-          token_str = "?token=#{token.token}"
+          return_vals = "?token=#{token.token}&result=success"
         end
         if params[:redirect].start_with? "http"
-          redirect_url = "#{params[:redirect]}#{token_str}"
+          redirect_url = "#{params[:redirect]}#{return_vals}"
         else
-          redirect_url = "http://#{params[:redirect]}#{token_str}"
+          redirect_url = "http://#{params[:redirect]}#{return_vals}"
         end
         redirect redirect_url
       else
