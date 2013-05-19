@@ -122,6 +122,27 @@ WalletShark::App.controllers :user do
     render 'user/deposit'
   end
 
+  post :ppcard_deposit do
+    token = AuthToken.first(:token => session[:auth_token])
+    unless token
+      redirect '/user/login/'
+    end
+    user = token.user
+    ppc = PrepaidCard.first(:identifier => params[:ppc_id])
+    if ppc
+      if ppc.password == params[:ppc_pass]
+        ppc.used_at = Time.now
+        ppc.user = user
+        ppc.save
+        user.balance += ppc.value
+        user.save
+        redirect '/user/'
+      end
+    end
+    @error = "Card ID or Password error"
+    render 'user/deposit'
+  end
+
   get :resetloginpass do
     @title = "Reset Login Password"
     token = AuthToken.first(:token => session[:auth_token])

@@ -5,6 +5,11 @@
     %h3 账户充值
 .row
   .span6.offset3
+    - if @error
+      .alert
+        %button.close{:type => "button", "data-dismiss".to_s => "alert"}
+          &times;
+        = @error
     .tabbable
       %ul#forgetpass.nav.nav-tabs
         %li.active
@@ -15,16 +20,16 @@
           %a{:href => "#viabankcard"} 银行卡
       .tab-content
         #viaprepaidcard.tab-pane.active
-          %form.form-horizontal{:action => "", :method => "post"}
+          - form_tag '/user/ppcard_deposit/', :class => 'form-horizontal', :method => "post" do
             %fieldset
               .control-group
                 %label.control-label{:for => "inputPrepaidCardNum"} 充值卡号
                 .controls
-                  %input#inputPrepaidCardNum{:placeholder => "Prepaid Card Number", :type => "password"}/
+                  %input#inputPrepaidCardNum{:placeholder => "Prepaid Card Number", :type => "password", :name => "ppc_id"}/
               .control-group
                 %label.control-label{:for => "inputPrepaidCardPass"} 充值卡密码
                 .controls
-                  %input#inputPrepaidCardPass{:placeholder => "Prepaid Card Password", :type => "password"}/
+                  %input#inputPrepaidCardPass{:placeholder => "Prepaid Card Password", :type => "password", :name => "ppc_pass"}/
               .control-group
                 .controls
                   %button.btn.btn-primary{:type => "submit"} 确认充值
