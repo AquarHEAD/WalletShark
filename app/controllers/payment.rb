@@ -50,14 +50,14 @@ WalletShark::App.controllers :payment do
     @user = token.user
     @payment_token = params[:payment_token]
     if params[:success_callback].start_with? "http"
-      @success_callback = "#{params[:success_callback]}#{return_vals}"
+      @success_callback = "#{params[:success_callback]}"
     else
-      @success_callback = "http://#{params[:success_callback]}#{return_vals}"
+      @success_callback = "http://#{params[:success_callback]}"
     end
     if params[:failure_callback].start_with? "http"
-      @failure_callback = "#{params[:failure_callback]}#{return_vals}"
+      @failure_callback = "#{params[:failure_callback]}"
     else
-      @failure_callback = "http://#{params[:failure_callback]}#{return_vals}"
+      @failure_callback = "http://#{params[:failure_callback]}"
     end
     @pay = Payment.first(:token => params[:payment_token])
     @pay.user = @user
