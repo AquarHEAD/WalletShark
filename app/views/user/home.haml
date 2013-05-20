@@ -180,7 +180,10 @@
             %td 
               = pay.recipient
             %td
-              = "%.2f" % pay.pay_amount.to_f
+              - if pay.type == :payment
+                = "-%.2f" % pay.pay_amount.to_f
+              - else
+                = "%.2f" % pay.pay_amount.to_f
             %td 交易成功
             %td
               %i.icon-remove

@@ -1,10 +1,13 @@
 -# encoding: utf-8
 .row
   .span6.offset3
-    %h3 支付认证
+    %h3 #{@pay.recipient}希望您支付#{"%.2f" % @pay.pay_amount}元
 .row
   .span6.offset3
-    %form.form-horizontal{:action => "", :method => "post"}
+    - form_tag '/pay/', :class => 'form-horizontal', :method => "post" do
+      %input{:type => "hidden", :name => "payment_token", :value => @payment_token}
+      %input{:type => "hidden", :name => "success_callback", :value => @success_callback}
+      %input{:type => "hidden", :name => "failure_callback", :value => @failure_callback}
       %legend
       .control-group
         %label.control-label{:for => "inputPayPass"} 请输入支付密码
@@ -14,4 +17,3 @@
       .control-group
         .controls
           %button.btn.btn-primary{:type => "submit"} 确认支付
-
