@@ -7,7 +7,7 @@ class Payment
 
   # property <name>, <type>
   property :id, Serial
-  property :token, String, :default => lambda { |r, p| Digest::SHA1.hexdigest([Time.now, rand].join) }
+  property :token, String, :default => lambda { |r, p| [Time.now.strftime("%Y%m%d%H%M%S"), Digest::SHA1.hexdigest([Time.now, rand].join)].join }
   property :name, String
   property :type, Enum[ :inpour, :payment, :refund, :transfer, :gathering ]
   property :recipient, String
@@ -17,5 +17,5 @@ class Payment
   property :ended_at, DateTime
   timestamps :at
 
-  belongs_to :user
+  belongs_to :user, :required => false
 end

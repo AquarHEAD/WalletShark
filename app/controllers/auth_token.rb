@@ -30,7 +30,7 @@ WalletShark::App.controllers :auth_token do
       halt 401
     end
     token = AuthToken.first(:token => params[:token])
-    return token.to_json(:exclude => [:id, :user_id, :service_provider_id])
+    return token.to_json(:exclude => [:id])
   end
 
 end
