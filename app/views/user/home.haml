@@ -6,7 +6,7 @@
   });
 .row
   .span4.offset2
-    .media.well{"data-intro" => "用户信息", "data-position" => "left"}
+    .media.well
       %a.pull-left{:href => "#"}
         %img.media-object{:src => "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email)}?s=64"}/
       .media-body
@@ -15,7 +15,7 @@
           %span.label.label-important VIP
         %p
           = @user.email
-  .span4{"data-intro" => "资金管理", "data-position" => "right"}
+  .span4
     %h4 可用余额
     %h2
       = "%.2f" % @user.balance.to_f
@@ -24,7 +24,7 @@
     %a.btn.disabled{:href => "#"} 转账
 %hr/
 .row
-  .span8.offset2{"data-intro" => "近期消费趋势", "data-position" => "right"}
+  .span8.offset2
     .tabbable.tabs-left
       %ul#trendmaps.nav.nav-tabs
         %li.active
