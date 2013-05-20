@@ -18,4 +18,5 @@ class Payment
   timestamps :at
 
   belongs_to :user, :required => false
+  belongs_to :service_provider
 end

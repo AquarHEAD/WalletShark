@@ -16,8 +16,9 @@ WalletShark::App.controllers :payment do
     pay.recipient = params[:recipient]
     pay.pay_amount = params[:amount].to_d
     pay.status = :pending
+    pay.service_provider = service
     if pay.save
-      return pay.to_json(:exclude => [:id, :user_id])
+      return pay.to_json(:exclude => [:id, :user_id, :service_provider_id])
     else
       return pay.errors
     end
@@ -34,7 +35,7 @@ WalletShark::App.controllers :payment do
     end
     pay = Payment.first(:token => params[:token])
     if pay
-      return pay.to_json(:exclude => [:id, :user_id])
+      return pay.to_json(:exclude => [:id, :user_id, :service_provider_id])
     else
       return "Requested payment not found"
     end

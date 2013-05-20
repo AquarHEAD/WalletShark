@@ -136,6 +136,17 @@ WalletShark::App.controllers :user do
         ppc.save
         user.balance += ppc.value
         user.save
+        pay = Payment.new
+        pay.name = "WalletShark充值"
+        pay.type = :inpour
+        pay.recipient = "WalletShark"
+        pay.pay_amount = ppc.value
+        pay.status = :succeed
+        pay.service_provider = ServiceProvider.first()
+        pay.user = user
+        pay.save
+        pay.ended_at = Time.now
+        pay.save
         redirect '/user/'
       end
     end
