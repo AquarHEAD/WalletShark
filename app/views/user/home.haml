@@ -166,17 +166,21 @@
           %th 状态
           %th 操作
       %tbody
-        %tr
-          %td
-            2013.04.01
-            %br/
-            %small 17:25
-          %td
-            字节社版《失控》
-            %br/
-            %small 交易号 2013...116
-          %td 北京东西时代数字科技有限公司
-          %td -12.00
-          %td 交易成功
-          %td
-            %i.icon-remove
+        - @user.payment.all.each do |pay|
+          %tr
+            %td
+              = pay.ended_at.strftime("%Y.%m.%d")
+              %br/
+              %small
+                = pay.ended_at.strftime("%H:%M:%S")
+            %td
+              = pay.name
+              %br/
+              %small 交易号 #{pay.token[0,8]}...#{pay.token[-5,5]}
+            %td 
+              = pay.recipient
+            %td
+              = "%.2f" % pay.pay_amount.to_f
+            %td 交易成功
+            %td
+              %i.icon-remove
