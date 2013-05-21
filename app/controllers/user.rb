@@ -55,6 +55,23 @@ WalletShark::App.controllers :user do
     render 'user/login'
   end
 
+  get :info, :with => :id do
+    service_id = params[:service_id]
+    if !service_id
+      halt 401
+    end
+    service = ServiceProvider.first(:service_id => service_id)
+    if service.service_secret != params[:service_secret]
+      halt 401
+    end
+    user = User.first(:id => params[:id])
+    if user
+      return user.to_json(:exclude => [:id, :login_pass, :payment_pass, :sec_question, :sec_answer, :balance, :realname, :id_number])
+    else
+      return "Requested user not found"
+    end
+  end
+
   post :login do
     if params[:login_id].include? "@"
       user = User.first(:email => params[:login_id])
