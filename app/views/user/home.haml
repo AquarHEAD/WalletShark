@@ -169,10 +169,11 @@
         - @user.payment.all.each do |pay|
           %tr
             %td
-              = pay.ended_at.strftime("%Y.%m.%d")
-              %br/
-              %small
-                = pay.ended_at.strftime("%H:%M:%S")
+              - if pay.ended_at
+                = pay.ended_at.strftime("%Y.%m.%d")
+                %br/
+                %small
+                  = pay.ended_at.strftime("%H:%M:%S")
             %td
               = pay.name
               %br/
