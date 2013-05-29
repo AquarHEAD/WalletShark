@@ -13,7 +13,7 @@ WalletShark::App.controllers :payment do
     pay = Payment.new
     pay.name = params[:name]
     pay.type = params[:type].to_sym
-    pay.recipient = params[:recipient]
+    pay.recipient = params[:recipient] || service.service_name
     pay.pay_amount = params[:amount].to_d
     pay.status = :pending
     pay.service_provider = service
