@@ -83,7 +83,7 @@ WalletShark::App.controllers :user do
       render 'user/login'
     end
     if user.login_pass == params[:login_pass]
-      if params[:token].length > 0
+      if params[:token] && params[:token].length > 0
         token = AuthToken.first(:token => params[:token])
         if token.status != :fresh
           halt 403, "Token used or expired."
@@ -99,7 +99,7 @@ WalletShark::App.controllers :user do
       token.used_at = Time.now
       token.save
       session[:auth_token] = token.token
-      if params[:redirect].length > 0
+      if params[:redirect] && params[:redirect].length > 0
         if params[:redirect].include? "?"
           return_vals = "&token=#{token.token}&result=success"
         else
@@ -188,6 +188,11 @@ WalletShark::App.controllers :user do
   get :forget do
     @title = "Forget Password"
     render 'user/forget'
+  end
+
+  get :edit do
+    @title = "Edit"
+    render 'user/edit'
   end
   
 end
