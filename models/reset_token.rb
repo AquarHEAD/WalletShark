@@ -5,7 +5,6 @@ class ResetToken
 
   require 'digest'
 
-  # property <name>, <type>
   property :id, Serial
   property :token, String, :default => lambda { |r, p| Digest::SHA1.hexdigest([Time.now, rand].join) }
   property :type, Enum[ :login, :payment ]

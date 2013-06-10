@@ -3,7 +3,6 @@
 class User
   include DataMapper::Resource
 
-  # property <name>, <type>
   property :id, Serial
   property :username, String, :required => true, :unique => true
   property :nickname, String, :required => true

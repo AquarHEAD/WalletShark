@@ -7,12 +7,12 @@
 .row
   .span4.offset2
     .media.well
-      %a.pull-left{:href => "#"}
-        %img.media-object{:src => "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email)}?s=64"}/
+      %img.pull-left.media-object{:src => "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email)}?s=64"}/
       .media-body
         %h4
           = @user.nickname
-          %span.label.label-important VIP
+          %span.label.label-important
+            = vip_level(@user.grow_points)
         %p
           = @user.email
   .span4
