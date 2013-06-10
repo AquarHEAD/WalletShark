@@ -9,6 +9,16 @@ WalletShark::App.controllers :user do
       redirect '/user/login/'
     end
     @user = token.user
+    @months = [1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12].drop_while { |x| x <= Time.now.month }.take 12
+    ym = ([1,2,3,4,5,6,7,8,9,10,11,12].map { |x| [Time.now.year-1, x] } + [1,2,3,4,5,6,7,8,9,10,11,12].map { |x| [Time.now.year, x] }).drop_while { |x| x[1] <= Time.now.month }.take 12
+    @data_spent = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    @ds_max = 0
+    ym.each_index do |i|
+      @user.payment.all.select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_spent[i] += p.pay_amount.to_f }
+      if @data_spent[i] > @ds_max
+        @ds_max = @data_spent[i]
+      end
+    end
     require 'digest'
     render 'user/home'
   end
@@ -169,6 +179,9 @@ WalletShark::App.controllers :user do
     end
     @error = "Card ID or Password error"
     render 'user/deposit'
+  end
+
+  get :genresetpaypass do
   end
 
   get :resetpaypass do

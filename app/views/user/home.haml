@@ -50,12 +50,13 @@
           $(this).tab('show');
         })
       :javascript
-        var months = [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3];
-        var data_spent = [2660.43, 630.76, 998.77, 2728.24, 316.95, 523.00, 286.97, 1547.14, 1131.29, 2676.57, 559.24, 698.57];
-        var ds_max = 2728.24;
+        var months = #{@months.inspect};
+        var data_spent = #{@data_spent.inspect}
         var data_income = data_spent;
         var data_overhead = data_spent;
         var data_profit = data_spent;
+
+        var ds_max = #{@ds_max};
         var di_max = ds_max;
         var do_max = ds_max;
         var dp_max = ds_max;
