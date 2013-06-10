@@ -4,33 +4,48 @@
     %h3 编辑资料
 .row
   .span6.offset3
-    %form.form-horizontal
-      %legend 登录信息
+    - if @error
+      .alert
+        %button.close{:type => "button", "data-dismiss".to_s => "alert"}
+          &times;
+        = @error
+    - form_tag '/user/edit/', :class => 'form-horizontal', :method => "post" do
+      %legend 个人信息
       .control-group
-        %label.control-label{:for => "inputPassword"} 登录密码
+        %label.control-label{:for => "inputNick"} 昵称
         .controls
-          %input#inputPassword{:placeholder => "Login Password", :type => "password"}/
-      .control-group
-        %label.control-label{:for => "inputPasswordRepeat"} 重复登录密码
-        .controls
-          %input#inputPasswordRepeat{:placeholder => "Repeat Login Password", :type => "password"}/
+          %input#inputNick{:placeholder => @user.nickname, :type => "text", :name => "newNickname"}/
       .control-group
         %label.control-label{:for => "inputEmail"} 电子邮箱
         .controls
-          %input#inputEmail{:placeholder => "Email", :type => "text"}/
+          %input#inputEmail{:placeholder => @user.email, :type => "text", :name => "newEmail"}/
+      %legend 登录密码
+      .control-group
+        %label.control-label{:for => "inputPassword"} 新登录密码
+        .controls
+          %input#inputPassword{:placeholder => "Login Password", :type => "password", :name => "newLoginPass"}/
+      .control-group
+        %label.control-label{:for => "inputPasswordRepeat"} 重复新登录密码
+        .controls
+          %input#inputPasswordRepeat{:placeholder => "Repeat Login Password", :type => "password", :name => "repeatLoginPass"}/
       %legend 账户安全
       .control-group
         %label.control-label{:for => "inputBindPhone"} 绑定手机
         .controls
-          %input#inputBindPhone{:placeholder => "BindPhone", :type => "text"}/
+          %input#inputBindPhone{:placeholder => @user.bind_phone, :type => "text", :name => "newBindPhone"}/
       .control-group
         %label.control-label{:for => "inputSecQuestion"} 安全问题
         .controls
-          %input#inputSecQuestion{:placeholder => "Security Question", :type => "text"}/
+          %input#inputSecQuestion{:placeholder => @user.sec_question, :type => "text", :name => "newSecQues"}/
       .control-group
         %label.control-label{:for => "inputSecAnswer"} 安全问题答案
         .controls
-          %input#inputSecAnswer{:placeholder => "Security Question Answer", :type => "text"}/
+          %input#inputSecAnswer{:placeholder => @user.sec_answer, :type => "text", :name => "newSecAnswer"}/
+      %legend 请输入旧密码确认
+      .control-group
+        %label.control-label{:for => "inputPassword"} 旧登录密码
+        .controls
+          %input#inputPassword{:placeholder => "Login Password", :type => "password", :name => "login_pass"}/
       %legend
       .control-group
         .controls

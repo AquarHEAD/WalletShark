@@ -192,7 +192,45 @@ WalletShark::App.controllers :user do
 
   get :edit do
     @title = "Edit"
+    token = AuthToken.first(:token => session[:auth_token])
+    unless token
+      redirect '/user/login/'
+    end
+    @user = token.user
     render 'user/edit'
+  end
+
+  post :edit do
+    token = AuthToken.first(:token => session[:auth_token])
+    unless token
+      redirect '/user/login/'
+    end
+    @user = token.user
+    if @user.login_pass == params[:login_pass]
+      if params[:newNickname].length > 0 
+        @user.nickname = params[:newNickname]
+      end
+      if params[:newEmail].length > 0 
+        @user.email = params[:newEmail]
+      end
+      if params[:newBindPhone].length > 0 
+        @user.bind_phone = params[:newBindPhone]
+      end
+      if params[:newSecQues].length > 0 
+        @user.sec_question = params[:newSecQues]
+      end
+      if params[:newSecAnswer].length > 0 
+        @user.sec_answer = params[:newSecAnswer]
+      end
+      if params[:newLoginPass].length > 0 && params[:newLoginPass] == params[:repeatLoginPass]
+        @user.login_pass = params[:newLoginPass]
+      end
+      @user.save
+      redirect '/user/'
+    else
+      @error = "旧登录密码错误"
+      render 'user/edit'
+    end
   end
   
 end
