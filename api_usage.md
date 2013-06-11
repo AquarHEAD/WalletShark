@@ -77,6 +77,7 @@ http://walletshark.aquarhead.me/payment/new?service_id=13&service_secret=wallets
 - recipient: 对方
 - type: payment=支付(用户减钱) refund=退款(用户加钱) 等等..
 - amount: 金额
+- grow_points: 获得的成长点数
 
 ```
 {

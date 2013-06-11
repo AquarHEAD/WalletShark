@@ -15,6 +15,9 @@ WalletShark::App.controllers :payment do
     pay.type = params[:type].to_sym
     pay.recipient = params[:recipient] || service.service_name
     pay.pay_amount = params[:amount].to_d
+    if params[:grow_points]
+      pay.grow_points = params[:grow_points].to_f
+    end
     pay.status = :pending
     pay.service_provider = service
     if pay.save
@@ -86,6 +89,7 @@ WalletShark::App.controllers :payment do
       else
         @user.balance -= @pay.pay_amount
       end
+      @user.grow_points += @pay.grow_points
       @user.save
       if @success_callback
         redirect @success_callback
