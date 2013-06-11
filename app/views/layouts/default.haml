@@ -39,15 +39,16 @@
             %span.icon-bar
             %span.icon-bar
           .nav-collapse.collapse
-            %ul.nav
-              %li.active
-                %a{:href => "/user/"} 我的易付通
-              %li
-                %a{:href => "#"} 预订
-              %li
-                %a{:href => "#"}
-                  通知
-                  %span.badge.badge-inverse 5
+            - if @user
+              %ul.nav
+                %li.active
+                  %a{:href => "/user/"} 我的易付通
+                %li
+                  %a{:href => "#"} 预订
+                %li
+                  %a{:href => "#"}
+                    通知
+                    %span.badge.badge-inverse 5
             %ul.nav.pull-right
               - if @user
                 %li
