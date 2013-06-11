@@ -235,7 +235,7 @@ WalletShark::App.controllers :user do
         @user.login_pass = params[:newLoginPass]
       end
       @user.save
-      redirect back
+      redirect '/user/'
     else
       @error = "旧登录密码错误"
       render 'user/edit'
