@@ -18,6 +18,13 @@ WalletShark::App.controllers :payment do
     if params[:grow_points]
       pay.grow_points = params[:grow_points].to_f
     end
+    if params[:detail_url]
+      if params[:detail_url].start_with? "http"
+        pay.detail_url = params[:detail_url]
+      else
+        pay.detail_url = "http://#{params[:detail_url]}"
+      end
+    end
     pay.status = :pending
     pay.service_provider = service
     if pay.save

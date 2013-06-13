@@ -13,6 +13,7 @@ class Payment
   property :recipient, String
   property :pay_amount, Decimal, :scale => 2, :precision => 20
   property :grow_points, Float, :default => 0.0
+  property :detail_url, String
   property :status, Enum[ :pending, :succeed, :failed, :expired]
   property :status_msg, String
   property :ended_at, DateTime
