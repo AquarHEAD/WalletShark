@@ -59,6 +59,18 @@ WalletShark::App.controllers :user do
   end
 
   get :login do
+    token = AuthToken.first(:token => session[:auth_token])
+    if token
+      redirect_url = '/user/'
+      if params[:redirect]
+        if params[:redirect].start_with? "http"
+          redirect_url = params[:redirect]
+        else
+          redirect_url = "http://#{params[:redirect]}"
+        end
+      end
+      redirect redirect_url
+    end
     @title = "Login"
     @token_key = params[:token]
     @redirect_url = params[:redirect]
