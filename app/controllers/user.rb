@@ -58,25 +58,6 @@ WalletShark::App.controllers :user do
     end
   end
 
-  get :login do
-    token = AuthToken.first(:token => session[:auth_token])
-    if token
-      redirect_url = '/user/'
-      if params[:redirect]
-        if params[:redirect].start_with? "http"
-          redirect_url = params[:redirect]
-        else
-          redirect_url = "http://#{params[:redirect]}"
-        end
-      end
-      redirect redirect_url
-    end
-    @title = "Login"
-    @token_key = params[:token]
-    @redirect_url = params[:redirect]
-    render 'user/login'
-  end
-
   get :info, :with => :id do
     service_id = params[:service_id]
     if !service_id
@@ -92,6 +73,33 @@ WalletShark::App.controllers :user do
     else
       return "Requested user not found"
     end
+  end
+
+  get :login do
+    token = AuthToken.first(:token => session[:auth_token])
+    if token
+      redirect_url = '/user/'
+      if params[:redirect]
+        token = AuthToken.new
+        service = ServiceProvider.get(1)
+        token.service_provider = service
+        token.expire_at = Time.now + 30*60
+        token.user = user
+        token.status = :authed
+        token.used_at = Time.now
+        token.save
+        if params[:redirect].start_with? "http"
+          redirect_url = "#{params[:redirect]}&token=#{token.token}&result=success"
+        else
+          redirect_url = "http://#{params[:redirect]}&token=#{token.token}&result=success"
+        end
+      end
+      redirect redirect_url
+    end
+    @title = "Login"
+    @token_key = params[:token]
+    @redirect_url = params[:redirect]
+    render 'user/login'
   end
 
   post :login do
