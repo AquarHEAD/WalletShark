@@ -78,20 +78,25 @@ WalletShark::App.controllers :user do
   get :login do
     token = AuthToken.first(:token => session[:auth_token])
     if token
+      user = token.user
       redirect_url = '/user/'
       if params[:redirect]
-        token = AuthToken.new
-        service = ServiceProvider.get(1)
-        token.service_provider = service
-        token.expire_at = Time.now + 30*60
-        token.user = user
-        token.status = :authed
-        token.used_at = Time.now
-        token.save
-        if params[:redirect].start_with? "http"
-          redirect_url = "#{params[:redirect]}&token=#{token.token}&result=success"
+        if params[:token]
+          backtoken = AuthToken.first(:token => params[:token])
         else
-          redirect_url = "http://#{params[:redirect]}&token=#{token.token}&result=success"
+          backtoken = AuthToken.new
+          service = ServiceProvider.get(1)
+          backtoken.service_provider = service
+          backtoken.expire_at = Time.now + 30*60
+        end
+        backtoken.user = user
+        backtoken.status = :authed
+        backtoken.used_at = Time.now
+        backtoken.save
+        if params[:redirect].start_with? "http"
+          redirect_url = "#{params[:redirect]}&token=#{backtoken.token}&result=success"
+        else
+          redirect_url = "http://#{params[:redirect]}&token=#{backtoken.token}&result=success"
         end
       end
       redirect redirect_url
