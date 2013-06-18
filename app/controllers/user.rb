@@ -182,7 +182,7 @@ WalletShark::App.controllers :user do
     user = token.user
     ppc = PrepaidCard.first(:identifier => params[:ppc_id])
     if ppc
-      if ppc.password == params[:ppc_pass]
+      if ppc.password == params[:ppc_pass] && ppc.used_at == nil
         ppc.used_at = Time.now
         ppc.user = user
         ppc.save
