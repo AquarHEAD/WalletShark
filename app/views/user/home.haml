@@ -188,7 +188,7 @@
                 = "%.2f" % pay.pay_amount.to_f
             %td
               - if pay.status == :succeed
-                支付失败
+                支付成功
               - elsif pay.status == :pending
                 等待支付
               - elsif pay.status == :failed
