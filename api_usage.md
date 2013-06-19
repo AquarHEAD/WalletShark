@@ -3,7 +3,9 @@
 1 生成Auth Token (可以不用)
 
 ```
-http://walletshark.aquarhead.me/token/new?service_id=13&service_secret=walletshark
+http://walletshark.aquarhead.me/token/new
+?service_id={}
+&service_secret={}
 ```
 
 ```
@@ -36,8 +38,8 @@ https://www.google.com/
 ```
 http://walletshark.aquarhead.me/token/info/
 f1ed7f3dfe3e92fd934f29d33dfb311840c2384c
-?service_id=13
-&service_secret=walletshark
+?service_id={}
+&service_secret={}
 ```
 
 ```
@@ -56,8 +58,8 @@ service_provider_id: 1
 
 ```
 http://walletshark.aquarhead.me/user/info/1
-?service_id=13
-&service_secret=walletshark
+?service_id={}
+&service_secret={}
 ```
 
 ```
@@ -79,8 +81,8 @@ updated_at: "2013-05-20T09:30:15-04:00"
 
 ```
 http://walletshark.aquarhead.me/payment/new
-?service_id=13
-&service_secret=walletshark
+?service_id={}
+&service_secret={}
 &name=%E6%B5%8B%E8%AF%95wwqq%E6%9C%8D%E5%8A%A1%E5%99%A8
 &recipient=Nazgul
 &type=payment
@@ -95,6 +97,7 @@ http://walletshark.aquarhead.me/payment/new
 - recipient: 对方
 - type: payment=支付(用户减钱) refund=退款(用户加钱) 等等..
 - amount: 金额
+- detail_url: 详细信息页面
 - grow_points: 获得的成长点数
 
 ```
@@ -126,8 +129,8 @@ http://walletshark.aquarhead.me/pay/
 ```
 http://walletshark.aquarhead.me/payment/info/
 2013052707415214e8fca877dfd44b2b1cb5a1764c0b8f77507d1b
-?service_id=13
-&service_secret=walletshark
+?service_id={}
+&service_secret={}
 ```
 
 ```
@@ -148,7 +151,9 @@ updated_at: "2013-05-27T07:43:56-04:00"
 生成充值卡
 
 ```
-http://walletshark.aquarhead.me/genppcard?service_id=13&service_secret=walletshark&count=1&value=100
+http://walletshark.aquarhead.me/genppcard
+?service_id={}
+&service_secret={}&count=1&value=100
 ```
 
 默认密码123
