@@ -186,6 +186,14 @@
                 = "-%.2f" % pay.pay_amount.to_f
               - else
                 = "%.2f" % pay.pay_amount.to_f
-            %td 交易成功
+            %td
+              - if pay.status == :succeed
+                支付失败
+              - elsif pay.status == :pending
+                等待支付
+              - elsif pay.status == :failed
+                支付失败
+              - elsif pay.status == :expired
+                超过时限, 支付失败
             %td
               %i.icon-remove
