@@ -1,4 +1,4 @@
-其他服务登录
+## 其他服务登录
 
 1 生成Auth Token (可以不用)
 
@@ -75,7 +75,7 @@ updated_at: "2013-05-20T09:30:15-04:00"
 }
 ```
 
-其他服务支付
+## 其他服务支付
 
 1 生成Payment
 
@@ -95,10 +95,12 @@ http://walletshark.aquarhead.me/payment/new
 
 - name: 交易名称
 - recipient: 对方
-- type: payment=支付(用户减钱) refund=退款(用户加钱) 等等..
+- type: payment=支付(用户减钱) refund=退款(用户加钱) transfer(给卖家打钱!) 等等..
 - amount: 金额
 - detail_url: 详细信息页面
 - grow_points: 获得的成长点数
+
+- user_id: 如果type是refund或者transfer, 那么需要附加这个参数, 值是钱要给的账户的id
 
 ```
 {
@@ -148,7 +150,17 @@ updated_at: "2013-05-27T07:43:56-04:00"
 }
 ```
 
-生成充值卡
+4 退款
+
+```
+http://walletshark.aquarhead.me/payment/refund/
+2013052707415214e8fca877dfd44b2b1cb5a1764c0b8f77507d1b
+?service_id={}
+&service_secret={}
+&user_id={}
+```
+
+## 生成充值卡
 
 ```
 http://walletshark.aquarhead.me/genppcard

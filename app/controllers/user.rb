@@ -13,11 +13,38 @@ WalletShark::App.controllers :user do
     ym = ([1,2,3,4,5,6,7,8,9,10,11,12].map { |x| [Time.now.year-1, x] } + [1,2,3,4,5,6,7,8,9,10,11,12].map { |x| [Time.now.year, x] }).drop_while { |x| x[1] <= Time.now.month }.take 12
     @data_spent = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     @ds_max = 0
+    @data_income = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    @di_max = 0
+    @data_overhead = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    @do_max = 0
+    @data_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    @dp_max = 0
     ym.each_index do |i|
-      @user.payment.all.select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_spent[i] += p.pay_amount.to_f }
+      @user.payment.all(:type => :payment).select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_spent[i] += p.pay_amount.to_f }
       if @data_spent[i] > @ds_max
         @ds_max = @data_spent[i]
       end
+
+      @user.payment.all(:type => :inpour).select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_income[i] += p.pay_amount.to_f }
+      @user.payment.all(:type => :transfer).select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_income[i] += p.pay_amount.to_f }
+      if @data_income[i] > @di_max
+        @di_max = @data_income[i]
+      end
+
+      @data_overhead[i] = (@data_spent[i] - @data_income[i]).abs
+      if i == 0
+        @do_max = @data_overhead[i]
+      elsif @data_overhead[i] > @do_max
+        @do_max = @data_overhead[i]
+      end
+
+      @data_profit[i] = @data_income[i] - @data_spent[i]
+      if i == 0
+        @dp_max = @data_profit[i]
+      elsif @data_profit[i] > @dp_max
+        @dp_max = @data_profit[i]
+      end
+
     end
     require 'digest'
     render 'user/home'

@@ -28,7 +28,21 @@ WalletShark::App.controllers :payment do
     pay.status = :pending
     pay.service_provider = service
     if pay.save
-      return pay.to_json(:exclude => [:id, :user_id, :service_provider_id])
+      if [:refund, :transfer].include? pay.type
+        if params[:user_id]
+          user = User.first(:id => params[:user_id])
+          user.balance += pay.pay_amount
+          pay.status = :succeed
+          pay.ended_at = Time.now
+          pay.user = user
+          pay.save
+          user.grow_points += pay.grow_points
+          user.save
+        else
+          return "Need user_id"
+        end
+      end
+      return pay.to_json(:exclude => [:id])
     else
       return pay.errors
     end
@@ -45,7 +59,33 @@ WalletShark::App.controllers :payment do
     end
     pay = Payment.first(:token => params[:token])
     if pay
-      return pay.to_json(:exclude => [:id, :user_id, :service_provider_id])
+      return pay.to_json(:exclude => [:id])
+    else
+      return "Requested payment not found"
+    end
+  end
+
+  get :refund, :with => :token do
+    service_id = params[:service_id]
+    if !service_id
+      halt 401
+    end
+    service = ServiceProvider.first(:service_id => service_id)
+    if service.service_secret != params[:service_secret]
+      halt 401
+    end
+    pay = Payment.first(:token => params[:token])
+    if pay && params[:user_id] && pay.service_provider == service
+      user = User.first(:id => params[:user_id])
+      user.balance += pay.pay_amount
+      pay.type = :refund
+      pay.status = :succeed
+      pay.ended_at = Time.now
+      pay.user = user
+      pay.save
+      user.grow_points += pay.grow_points
+      user.save
+      return pay.to_json(:exclude => [:id])
     else
       return "Requested payment not found"
     end
@@ -87,15 +127,14 @@ WalletShark::App.controllers :payment do
     @success_callback = params[:success_callback]
     @failure_callback = params[:failure_callback]
     @pay = Payment.first(:token => params[:payment_token])
-    if @user.balance >= @pay.pay_amount || @pay.type == :refund
+    if @pay.type != :pay
+      redirect '/user/'
+    end
+    if @user.balance >= @pay.pay_amount
       @pay.status = :succeed
       @pay.ended_at = Time.now
       @pay.save
-      if @pay.type == :refund
-        @user.balance += @pay.pay_amount
-      else
-        @user.balance -= @pay.pay_amount
-      end
+      @user.balance -= @pay.pay_amount
       @user.grow_points += @pay.grow_points
       @user.save
       if @success_callback

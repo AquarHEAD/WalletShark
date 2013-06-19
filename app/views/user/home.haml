@@ -52,14 +52,14 @@
       :javascript
         var months = #{@months.inspect};
         var data_spent = #{@data_spent.inspect}
-        var data_income = data_spent;
-        var data_overhead = data_spent;
-        var data_profit = data_spent;
+        var data_income = #{@data_income.inspect};
+        var data_overhead = #{@data_overhead.inspect};
+        var data_profit = #{@data_profit.inspect};
 
         var ds_max = #{@ds_max};
-        var di_max = ds_max;
-        var do_max = ds_max;
-        var dp_max = ds_max;
+        var di_max = #{@di_max};
+        var do_max = #{@do_max};
+        var dp_max = #{@dp_max};
         
         function calcx(pos) {
           return (430/11)*pos+15;
@@ -167,7 +167,7 @@
           %th 状态
           %th 操作
       %tbody
-        - @user.payment.all.each do |pay|
+        - @user.payment.all(:order => [ :updated_at.desc ]).each do |pay|
           %tr
             %td
               - if pay.ended_at
@@ -179,7 +179,7 @@
               = pay.name
               %br/
               %small 交易号 #{pay.token[0,8]}...#{pay.token[-5,5]}
-            %td 
+            %td
               = pay.recipient
             %td
               - if pay.type == :payment
@@ -187,13 +187,20 @@
               - else
                 = "%.2f" % pay.pay_amount.to_f
             %td
-              - if pay.status == :succeed
-                支付成功
-              - elsif pay.status == :pending
-                等待支付
-              - elsif pay.status == :failed
-                支付失败
-              - elsif pay.status == :expired
-                超过时限, 支付失败
+              - if pay.type == :payment
+                - if pay.status == :succeed
+                  已支付
+                - elsif pay.status == :pending
+                  等待支付
+                - elsif pay.status == :failed
+                  支付失败
+                - elsif pay.status == :expired
+                  超过时限, 支付失败
+              - elsif pay.type == :inpour
+                已充值
+              - elsif pay.type == :refund
+                已退款
+              - elsif pay.type == :transfer
+                已转账
             %td
               %i.icon-remove
