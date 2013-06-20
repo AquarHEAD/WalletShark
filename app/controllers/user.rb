@@ -12,30 +12,37 @@ WalletShark::App.controllers :user do
     @months = [1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12].drop_while { |x| x <= Time.now.month }.take 12
     ym = ([1,2,3,4,5,6,7,8,9,10,11,12].map { |x| [Time.now.year-1, x] } + [1,2,3,4,5,6,7,8,9,10,11,12].map { |x| [Time.now.year, x] }).drop_while { |x| x[1] <= Time.now.month }.take 12
     @data_spent = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    @ds_max = 0
+    @ds_scale = 0
     @data_income = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    @di_max = 0
+    @di_scale = 0
     @data_overhead = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     @do_max = 0
+    @do_min = 0
     @data_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     @dp_max = 0
+    @dp_min = 0
     ym.each_index do |i|
       @user.payment.all(:type => :payment).select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_spent[i] += p.pay_amount.to_f }
-      if @data_spent[i] > @ds_max
-        @ds_max = @data_spent[i]
+      if @data_spent[i] > @ds_scale
+        @ds_scale = @data_spent[i]
       end
 
       @user.payment.all(:type => :inpour).select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_income[i] += p.pay_amount.to_f }
       @user.payment.all(:type => :transfer).select { |p| p.ended_at && p.ended_at.year == ym[i][0] && p.ended_at.month == ym[i][1] }.each { |p| @data_income[i] += p.pay_amount.to_f }
-      if @data_income[i] > @di_max
-        @di_max = @data_income[i]
+      if @data_income[i] > @di_scale
+        @di_scale = @data_income[i]
       end
 
-      @data_overhead[i] = (@data_spent[i] - @data_income[i]).abs
+      @data_overhead[i] = @data_spent[i] - @data_income[i]
       if i == 0
         @do_max = @data_overhead[i]
       elsif @data_overhead[i] > @do_max
         @do_max = @data_overhead[i]
+      end
+      if i == 0
+        @do_min = @data_overhead[i]
+      elsif @data_overhead[i] < @do_min
+        @do_min = @data_overhead[i]
       end
 
       @data_profit[i] = @data_income[i] - @data_spent[i]
@@ -43,6 +50,11 @@ WalletShark::App.controllers :user do
         @dp_max = @data_profit[i]
       elsif @data_profit[i] > @dp_max
         @dp_max = @data_profit[i]
+      end
+      if i == 0
+        @dp_min = @data_overhead[i]
+      elsif @data_overhead[i] < @dp_min
+        @dp_min = @data_overhead[i]
       end
 
     end
