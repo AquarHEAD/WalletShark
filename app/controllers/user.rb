@@ -257,7 +257,23 @@ WalletShark::App.controllers :user do
     @token.expire_at = Time.now + 30*60
     @token.user = @user
     @token.save
-    email(:from => "walletshark@163.com", :to => @user.email, :subject => "Reset your WalletShark password", :body=> render('email/resetpass', :layout => :email))
+    email(:from => "walletshark@163.com", :to => @user.email, :subject => "WalletShark: Reset your payment password", :body=> render('email/resetpass', :layout => :email))
+    render 'user/checkemail'
+  end
+
+  post :genresetloginpass do
+    @title = "Reset Login Password"
+    token = AuthToken.first(:token => session[:auth_token])
+    if token
+      redirect '/user/'
+    end
+    @token = ResetToken.new
+    @token.type = :login
+    @token.expire_at = Time.now + 30*60
+    @user = User.first(:email => params[:email])
+    @token.user = @user
+    @token.save
+    email(:from => "walletshark@163.com", :to => @user.email, :subject => "WalletShark: Reset your login password", :body=> render('email/resetpass', :layout => :email))
     render 'user/checkemail'
   end
 

@@ -12,7 +12,7 @@
           %a{:href => "#viaquestion"} 通过安全问题
       .tab-content
         #viaemail.tab-pane.active
-          %form.form-inline{:action => "", :method => "post"}
+          - form_tag '/user/genresetloginpass/', :class => 'form-inline', :method => "post" do
             %fieldset
               %legend 填写注册时使用的邮箱, 接收修改密码的邮件
               %input{:name => "email", :placeholder => "Email", :type => "text"}/
