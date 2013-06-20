@@ -246,13 +246,80 @@ WalletShark::App.controllers :user do
   end
 
   get :genresetpaypass do
+    @title = "Reset Payment Password"
+    token = AuthToken.first(:token => session[:auth_token])
+    unless token
+      redirect '/user/login/'
+    end
+    @user = token.user
+    @token = ResetToken.new
+    @token.type = :payment
+    @token.expire_at = Time.now + 30*60
+    @token.user = @user
+    @token.save
+    email(:from => "walletshark@163.com", :to => @user.email, :subject => "Reset your WalletShark password", :body=> render('email/resetpass', :layout => :email))
+    render 'user/checkemail'
   end
 
-  get :resetpaypass do
-    @title = "Reset Payment Password"
+  get :resetpass do
     @reset_token = ResetToken.first(:token => params[:token])
-    reset_user = @reset_token.user 
-    render 'user/resetpaypass'
+    unless @reset_token
+      return "Invalid token."
+    end
+    if @reset_token.used_at
+      return "Invalid token."
+    end
+    if @reset_token.expire_at <=> Time.now < 0
+      return "Invalid token."
+    end
+    if @reset_token.type == :login
+      @title = "Reset Login Password"
+      @type_name = "登录"
+    else
+      @title = "Reset Payment Password"
+      @type_name = "支付"
+    end
+    token = AuthToken.first(:token => session[:auth_token])
+    if token
+      @user = token.user
+    end
+    render 'user/resetpass'
+  end
+
+  post :resetpass do
+    @reset_token = ResetToken.first(:token => params[:token])
+    @type_name = params[:type_name]
+    unless @reset_token
+      return "Invalid token."
+    end
+    if @reset_token.used_at
+      return "Invalid token."
+    end
+    if @reset_token.expire_at <=> Time.now < 0
+      return "Invalid token."
+    end
+    unless params[:newpass].length > 0
+      @error = "密码不能为空"
+      render 'user/resetpass'
+    end
+    unless params[:newpass] == params[:repeatnewpass]
+      @error = "密码不匹配"
+      render 'user/resetpass'
+    end
+    user = @reset_token.user
+    if @reset_token.type == :login
+      user.login_pass = params[:newpass]
+    else
+      user.payment_pass = params[:newpass]
+    end
+    @reset_token.used_at = Time.now
+    @reset_token.save
+    user.save
+    token = AuthToken.first(:token => session[:auth_token])
+    if token
+      @user = token.user
+    end
+    render 'user/resetdone'
   end
 
   get :forget do

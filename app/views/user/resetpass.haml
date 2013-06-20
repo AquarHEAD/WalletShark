@@ -1,0 +1,22 @@
+-# encoding: utf-8
+.row
+  .span6.offset3
+    %h3 重置#{@type_name}密码
+.row
+  .span6.offset3
+    - form_tag '/user/resetpass/', :class => 'form-horizontal', :method => "post" do
+      %input{:type => "hidden", :name => "token", :value => @reset_token.token}
+      %input{:type => "hidden", :name => "type_name", :value => @type_name}
+      %legend
+      .control-group
+        %label.control-label{:for => "inputPassword"} 重设#{@type_name}密码
+        .controls
+          %input#inputPassword{:placeholder => "New Password", :type => "password", :name => "newpass"}/
+      .control-group
+        %label.control-label{:for => "inputPasswordRepeat"} 重复新密码
+        .controls
+          %input#inputPasswordRepeat{:placeholder => "Repeat Password", :type => "password", :name => "repeatnewpass"}/
+      %legend
+      .control-group
+        .controls
+          %button.btn.btn-primary{:type => "submit"} 确认新密码
