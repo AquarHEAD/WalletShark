@@ -112,6 +112,9 @@ WalletShark::App.controllers :payment do
       @failure_callback = "http://#{fail_call}"
     end
     @pay = Payment.first(:token => params[:payment_token])
+    if @pay.status != :pending
+      redirect '/user/'
+    end
     @pay.user = @user
     @pay.save
     render 'payment/pay'
@@ -125,9 +128,8 @@ WalletShark::App.controllers :payment do
     @user = token.user
     @payment_token = params[:payment_token]
     @success_callback = params[:success_callback]
-    @failure_callback = params[:failure_callback]
     @pay = Payment.first(:token => params[:payment_token])
-    if @pay.type != :pay
+    if @pay.type != :payment
       redirect '/user/'
     end
     if @user.balance >= @pay.pay_amount

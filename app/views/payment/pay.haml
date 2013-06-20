@@ -4,12 +4,15 @@
     %h3 #{@pay.recipient}希望您支付#{"%.2f" % @pay.pay_amount}元
 .row
   .span6.offset3
+    - if @error
+      .alert
+        %button.close{:type => "button", "data-dismiss".to_s => "alert"}
+          &times;
+        = @error
     - form_tag '/pay/', :class => 'form-horizontal', :method => "post" do
       %input{:type => "hidden", :name => "payment_token", :value => @payment_token}
       - if @success_callback
         %input{:type => "hidden", :name => "success_callback", :value => @success_callback}
-      - if @failure_callback
-        %input{:type => "hidden", :name => "failure_callback", :value => @failure_callback}
       %legend
       .control-group
         %label.control-label{:for => "inputPayPass"} 请输入支付密码
@@ -19,3 +22,5 @@
       .control-group
         .controls
           %button.btn.btn-primary{:type => "submit"} 确认支付
+          %a.btn{:href => "#{@failure_callback}"}
+            取消
