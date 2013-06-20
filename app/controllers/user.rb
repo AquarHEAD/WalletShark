@@ -133,9 +133,9 @@ WalletShark::App.controllers :user do
         backtoken.used_at = Time.now
         backtoken.save
         if params[:redirect].start_with? "http"
-          redirect_url = "#{params[:redirect]}&token=#{backtoken.token}&result=success"
+          redirect_url = "#{params[:redirect]}?token=#{backtoken.token}&result=success"
         else
-          redirect_url = "http://#{params[:redirect]}&token=#{backtoken.token}&result=success"
+          redirect_url = "http://#{params[:redirect]}?token=#{backtoken.token}&result=success"
         end
       end
       redirect redirect_url
