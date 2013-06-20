@@ -169,7 +169,6 @@
           %th 对方
           %th 金额 | 明细
           %th 状态
-          %th 操作
       %tbody
         - @user.payment.all(:order => [ :updated_at.desc ]).each do |pay|
           %tr
@@ -206,8 +205,6 @@
                 已退款
               - elsif pay.type == :transfer
                 已转账
-            %td
-              %i.icon-remove
     :javascript
       /* Set the defaults for DataTables initialisation */
       $.extend( true, $.fn.dataTable.defaults, {
