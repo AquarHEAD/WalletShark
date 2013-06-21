@@ -67,6 +67,9 @@
           return (430/11)*pos+15;
         }
         function calcy(data, max, min) {
+          if (max-min == 0) {
+            return 70;
+          }
           return 70-((data-min)/(max-min))*50;
         }
         
