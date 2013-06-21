@@ -92,6 +92,16 @@ WalletShark::App.controllers :user do
     if @error || !@user.save
       render 'user/signup'
     else
+      if @user.bind_phone
+        require 'net/http'
+        uri = URI('https://api.46elks.com/a1/sms')
+        Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https', :verify_mode => OpenSSL::SSL::VERIFY_NONE) do |http|
+          request = Net::HTTP::Post.new uri.request_uri
+          request.basic_auth 'u0a67748e28e4a4cdeaf1e6d7ceabbd0d', 'F65F02D246BF191C1E16CEE663F8734A'
+          request.set_form_data({'from' => 'WalletShark', 'to' => @user.bind_phone, 'message' => 'Welcome to WalletShark'})
+          response = http.request request
+        end
+      end
       email(:from => "walletshark@163.com", :to => @user.email, :subject => "Welcome to WalletShark!", :body=>"Thanks for registering WalletShark!")
       redirect '/user/'
     end
